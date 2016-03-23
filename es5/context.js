@@ -65,10 +65,11 @@ function getLines(src, index, noBefore, noAfter) {
   };
 }
 
+// alternative: 👎
 function highlightFn(usePlaintext) {
   if (usePlaintext) {
     return function (text) {
-      return '>>' + text + '<<';
+      return '(☞ಠ_ಠ)☞ ' + text + ' ☜(ಠ_ಠ☜)';
     };
   } else {
     return function (text) {

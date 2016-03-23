@@ -59,9 +59,10 @@ function getLines(src, index, noBefore, noAfter) {
   };
 }
 
+// alternative: 👎
 function highlightFn(usePlaintext) {
   if (usePlaintext) {
-    return text => `>>${text}<<`;
+    return text => `(☞ಠ_ಠ)☞ ${text} ☜(ಠ_ಠ☜)`;
   } else {
     return text => chalk.red(text);
   }

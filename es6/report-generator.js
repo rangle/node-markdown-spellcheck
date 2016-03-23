@@ -19,12 +19,12 @@ export function generateSummaryReport(results) {
 }
 
 // Generates a report for the errors found in a single markdown file.
-export function generateFileReport(file, spellingInfo) {
+export function generateFileReport(file, spellingInfo, usePlaintext) {
   let report = `    ${chalk.bold(file)}\n`;
 
   for (let k = 0; k < spellingInfo.errors.length; k++) {
     const error = spellingInfo.errors[k];
-    const displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length);
+    const displayBlock = context.getBlock(spellingInfo.src, error.index, error.word.length, usePlaintext);
 
     const lineNumber = String(displayBlock.lineNumber);
     const lineNumberPadding = Array(10 - lineNumber.length).join(' ');

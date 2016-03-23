@@ -65,8 +65,21 @@ function getLines(src, index, noBefore, noAfter) {
   };
 }
 
+function highlightFn(usePlaintext) {
+  if (usePlaintext) {
+    return function (text) {
+      return '>>' + text + '<<';
+    };
+  } else {
+    return function (text) {
+      return _chalk2.default.red(text);
+    };
+  }
+}
+
 exports.default = {
-  getBlock: function getBlock(src, index, length) {
+  getBlock: function getBlock(src, index, length, usePlaintext) {
+    var highlight = highlightFn(usePlaintext);
     var lineInfo = getLines(src, index, 2, 2);
     var lineStart = 0;
     var lineEnd = lineInfo.line.length;
@@ -76,7 +89,7 @@ exports.default = {
     if (lineEnd - (lineInfo.column + length) > 30) {
       lineEnd = lineInfo.column + length + 30;
     }
-    var info = lineInfo.line.substring(lineStart, lineInfo.column) + _chalk2.default.red(lineInfo.line.substr(lineInfo.column, length)) + lineInfo.line.substring(lineInfo.column + length, lineEnd);
+    var info = lineInfo.line.substring(lineStart, lineInfo.column) + highlight(lineInfo.line.substr(lineInfo.column, length)) + lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
       info: info,
       lineNumber: lineInfo.lineNumber

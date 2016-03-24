@@ -23,6 +23,7 @@ program
   .option('-d, --dictionary [file]', 'specify a custom dictionary file - it should not include the file extension and will load .dic and .aiff.')
   .option('-a, --ignore-acronyms', 'Ignores acronyms.')
   .option('-x, --no-suggestions', 'Do not suggest words (can be slow)')
+  .option('-p, --plaintext', 'Reports\'s errors use plaintext instead of console highlighting.')
   .usage("[options] source-file source-file")
   .parse(process.argv);
 
@@ -41,6 +42,7 @@ const options = {
   ignoreAcronyms: program.ignoreAcronyms,
   ignoreNumbers: program.ignoreNumbers,
   suggestions: program.suggestions,
+  plaintext: program.plaintext,
   dictionary: {
     language: language,
     file: program.dictionary
@@ -61,7 +63,13 @@ else {
     if (program.report) {
       const errors = markdownSpellcheck.spell(src, options);
       if (errors.length > 0) {
-        console.log(generateFileReport(filename, { errors: errors, src: src }));
+        console.log(
+          generateFileReport(
+            filename,
+            { errors: errors, src: src },
+            program.plaintext
+          )
+        );
         process.exitCode = 1;
       }
       fileProcessed(null, errors);

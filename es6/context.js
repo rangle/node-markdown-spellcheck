@@ -59,8 +59,18 @@ function getLines(src, index, noBefore, noAfter) {
   };
 }
 
+// alternative: 👎
+function highlightFn(usePlaintext) {
+  if (usePlaintext) {
+    return text => `(☞ಠ_ಠ)☞ ${text} ☜(ಠ_ಠ☜)`;
+  } else {
+    return text => chalk.red(text);
+  }
+}
+
 export default {
-  getBlock(src, index, length) {
+  getBlock(src, index, length, usePlaintext) {
+    const highlight = highlightFn(usePlaintext);
     const lineInfo = getLines(src, index, 2, 2);
     let lineStart = 0;
     let lineEnd = lineInfo.line.length;
@@ -71,7 +81,7 @@ export default {
       lineEnd = lineInfo.column + length + 30;
     }
     let info = lineInfo.line.substring(lineStart, lineInfo.column) +
-      chalk.red(lineInfo.line.substr(lineInfo.column, length)) +
+      highlight(lineInfo.line.substr(lineInfo.column, length)) +
       lineInfo.line.substring(lineInfo.column + length, lineEnd);
     return {
       info,
